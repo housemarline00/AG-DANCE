@@ -1,0 +1,2941 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AG Dance Analysis</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f6f5fa;
+    color:#252238;
+}
+
+/* =========================
+   ESTRUCTURA GENERAL
+========================= */
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* =========================
+   MENU LATERAL
+========================= */
+
+.sidebar{
+    width:250px;
+    background:#19152b;
+    color:white;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    padding:25px 16px;
+    display:flex;
+    flex-direction:column;
+    z-index:10;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:5px 10px 35px;
+}
+
+.logo-box{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    background:#8b5cf6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.logo h2{
+    font-size:18px;
+}
+
+.logo p{
+    color:#aaa4bd;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.menu-title{
+    color:#77718c;
+    font-size:10px;
+    letter-spacing:1.5px;
+    margin:15px 12px 8px;
+}
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.menu button{
+    border:none;
+    background:transparent;
+    color:#aaa5bb;
+    padding:13px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    text-align:left;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    transition:.2s;
+}
+
+.menu button:hover{
+    background:#29233e;
+    color:white;
+}
+
+.menu button.active{
+    background:#8b5cf6;
+    color:white;
+}
+
+.icon{
+    width:20px;
+    text-align:center;
+    font-size:16px;
+}
+
+.bottom-menu{
+    margin-top:auto;
+}
+
+/* =========================
+   CONTENIDO
+========================= */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    height:78px;
+    background:white;
+    border-bottom:1px solid #e8e5ef;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 35px;
+}
+
+.header-left h1{
+    font-size:22px;
+}
+
+.header-left p{
+    color:#89859a;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.notification{
+    font-size:18px;
+    margin-right:12px;
+    cursor:pointer;
+}
+
+.profile-img{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#8b5cf6;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.profile-text{
+    display:flex;
+    flex-direction:column;
+}
+
+.profile-text strong{
+    font-size:13px;
+}
+
+.profile-text span{
+    color:#918c9f;
+    font-size:11px;
+    margin-top:3px;
+}
+
+/* =========================
+   PAGINAS
+========================= */
+
+.page{
+    display:none;
+    padding:32px;
+}
+
+.page.active{
+    display:block;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    background:#211b36;
+    border-radius:22px;
+    padding:40px;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero-tag{
+    color:#b79cff;
+    font-size:10px;
+    letter-spacing:2px;
+    font-weight:bold;
+}
+
+.hero h2{
+    font-size:34px;
+    line-height:1.2;
+    margin:13px 0;
+}
+
+.hero p{
+    color:#c4bfd0;
+    line-height:1.6;
+    max-width:560px;
+    font-size:14px;
+}
+
+.hero-visual{
+    width:240px;
+    height:190px;
+    position:relative;
+}
+
+.circle{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid #6f5a9e;
+}
+
+.circle.one{
+    width:190px;
+    height:190px;
+    right:0;
+    top:0;
+}
+
+.circle.two{
+    width:130px;
+    height:130px;
+    right:30px;
+    top:30px;
+}
+
+.dancer{
+    position:absolute;
+    right:50px;
+    top:40px;
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    overflow:hidden;
+    z-index:3;
+    border:3px solid rgba(139,92,246,0.8);
+    box-shadow:0 0 35px rgba(139,92,246,0.4);
+}
+
+.dancer img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+}
+
+.circle{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid #8b5cf6;
+    z-index:1;
+    pointer-events:none;
+}
+
+.btn{
+    border:none;
+    padding:12px 20px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:22px;
+}
+
+.btn-primary{
+    background:#8b5cf6;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#7745e7;
+}
+
+.btn-light{
+    background:white;
+    color:#30254b;
+}
+
+/* =========================
+   TARJETAS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-top:22px;
+}
+
+.stat{
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:15px;
+    padding:20px;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:42px;
+    height:42px;
+    border-radius:11px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;
+}
+
+.icon-purple{
+    background:#eee7ff;
+    color:#7144d8;
+}
+
+.icon-blue{
+    background:#e8f0ff;
+    color:#426bd8;
+}
+
+.icon-green{
+    background:#e4f7ec;
+    color:#29935a;
+}
+
+.icon-orange{
+    background:#fff0df;
+    color:#c87920;
+}
+
+.stat span{
+    display:block;
+    color:#89859a;
+    font-size:12px;
+    margin-top:16px;
+}
+
+.stat strong{
+    display:block;
+    font-size:27px;
+    margin-top:5px;
+}
+
+/* =========================
+   PANELES
+========================= */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+    margin-top:22px;
+}
+
+.panel{
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:15px;
+    padding:23px;
+}
+
+.panel-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.panel-title h3{
+    font-size:16px;
+}
+
+.panel-title p{
+    color:#918c9f;
+    font-size:11px;
+    margin-top:5px;
+}
+
+/* =========================
+   GRAFICA
+========================= */
+
+.chart{
+    height:220px;
+    margin-top:25px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-around;
+    border-bottom:1px solid #ddd9e5;
+    background:repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 43px,
+        #eeeaf4 44px
+    );
+}
+
+.bar{
+    width:35px;
+    background:#8b5cf6;
+    border-radius:7px 7px 0 0;
+    position:relative;
+}
+
+.bar span{
+    position:absolute;
+    top:-22px;
+    width:100%;
+    text-align:center;
+    font-size:10px;
+    color:#77718b;
+}
+
+.chart-labels{
+    display:flex;
+    justify-content:space-around;
+    margin-top:10px;
+    color:#918c9f;
+    font-size:11px;
+}
+
+/* =========================
+   EVALUACIONES
+========================= */
+
+.evaluation{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:17px 0;
+    border-bottom:1px solid #eeeaf2;
+}
+
+.evaluation:last-child{
+    border-bottom:none;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#eee7ff;
+    color:#7044d6;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.evaluation-info{
+    flex:1;
+}
+
+.evaluation-info strong{
+    font-size:13px;
+}
+
+.evaluation-info span{
+    display:block;
+    color:#918c9f;
+    font-size:11px;
+    margin-top:4px;
+}
+
+.score{
+    font-weight:bold;
+    color:#7044d6;
+}
+
+/* =========================
+   TITULOS
+========================= */
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:24px;
+}
+
+.section-head h2{
+    font-size:25px;
+}
+
+.section-head p{
+    color:#918c9f;
+    font-size:13px;
+    margin-top:5px;
+}
+
+/* =========================
+   BAILARINES
+========================= */
+
+.search{
+    width:100%;
+    background:white;
+    border:1px solid #e5e1ec;
+    padding:13px;
+    border-radius:10px;
+    outline:none;
+    margin-bottom:20px;
+}
+
+.dancers{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.dancer-card{
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:17px;
+    padding:25px;
+    text-align:center;
+}
+
+.dancer-photo{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background:#8b5cf6;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.dancer-card h3{
+    margin-top:14px;
+}
+
+.dancer-card .style{
+    color:#8b5cf6;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.dancer-card p{
+    color:#918c9f;
+    font-size:12px;
+    margin:8px 0;
+}
+
+.dancer-score{
+    font-size:28px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.card-actions{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+}
+
+.small-btn{
+    border:1px solid #ddd8e8;
+    background:white;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:11px;
+}
+
+.small-btn.primary{
+    background:#8b5cf6;
+    color:white;
+    border-color:#8b5cf6;
+}
+
+/* =========================
+   FORMULARIOS
+========================= */
+
+.form{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:18px;
+    padding:30px;
+}
+
+.form h2{
+    font-size:24px;
+}
+
+.form p{
+    color:#918c9f;
+    font-size:13px;
+    margin:7px 0 25px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+.field.full{
+    grid-column:1 / -1;
+}
+
+.field label{
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.field input,
+.field select{
+    padding:12px;
+    border:1px solid #ddd8e7;
+    border-radius:8px;
+    outline:none;
+    background:white;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:#8b5cf6;
+}
+
+/* =========================
+   ANALISIS
+========================= */
+
+.analysis{
+    display:grid;
+    grid-template-columns:1.6fr .8fr;
+    gap:20px;
+}
+
+.camera-panel,
+.metrics-panel{
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:18px;
+    padding:22px;
+}
+
+.camera-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.camera-head p{
+    color:#918c9f;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.status{
+    background:#e4f8ec;
+    color:#25874f;
+    padding:7px 10px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.camera{
+    height:450px;
+    background:#11101a;
+    border-radius:13px;
+    margin-top:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.camera-content{
+    text-align:center;
+    color:#777184;
+}
+
+.camera-content .camera-icon{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.camera-content h3{
+    color:#d0cbd9;
+}
+
+.camera-content p{
+    font-size:12px;
+    margin-top:7px;
+}
+
+.camera-controls{
+    display:flex;
+    gap:10px;
+}
+
+.metrics-panel h2{
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+.metric{
+    margin-bottom:25px;
+}
+
+.metric-title{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+}
+
+.metric-title span{
+    color:#777183;
+    font-size:13px;
+}
+
+.metric-title strong{
+    font-size:13px;
+}
+
+.progress{
+    height:8px;
+    background:#eeeaf3;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress div{
+    height:100%;
+    background:#8b5cf6;
+    border-radius:10px;
+}
+
+.general{
+    background:#f1ebff;
+    padding:20px;
+    border-radius:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:30px;
+}
+
+.general span{
+    font-size:13px;
+}
+
+.general strong{
+    font-size:30px;
+    color:#7044d6;
+}
+
+/* =========================
+   RESULTADOS
+========================= */
+
+.result-header{
+    background:#211b36;
+    color:white;
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+}
+
+.result-header span{
+    color:#b79cff;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.result-header h2{
+    margin:10px 0;
+}
+
+.result-number{
+    font-size:65px;
+    font-weight:bold;
+}
+
+.result-cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin:22px 0;
+}
+
+.result-card{
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:15px;
+    padding:22px;
+    text-align:center;
+}
+
+.result-card span{
+    color:#918c9f;
+    font-size:12px;
+}
+
+.result-card strong{
+    display:block;
+    font-size:30px;
+    color:#7044d6;
+    margin-top:10px;
+}
+
+/* =========================
+   TABLA
+========================= */
+
+.table-container{
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    padding:16px;
+    text-align:left;
+    border-bottom:1px solid #eeeaf2;
+    font-size:12px;
+}
+
+th{
+    color:#777183;
+    background:#faf9fc;
+}
+
+td strong{
+    color:#7044d6;
+}
+
+/* =========================
+   PROGRESO
+========================= */
+
+.progress-layout{
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:25px;
+}
+
+.profile-card{
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:18px;
+    padding:30px;
+    text-align:center;
+}
+
+.profile-big{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#8b5cf6;
+    color:white;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.profile-card h2{
+    margin-top:15px;
+}
+
+.profile-card p{
+    color:#918c9f;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.average{
+    font-size:40px;
+    color:#7044d6;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+.progress-chart{
+    background:white;
+    border:1px solid #e8e5ef;
+    border-radius:18px;
+    padding:25px;
+}
+
+.progress-bars{
+    height:300px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap:50px;
+    border-bottom:1px solid #ddd8e5;
+}
+
+.progress-bar{
+    width:48px;
+    background:#8b5cf6;
+    border-radius:8px 8px 0 0;
+    position:relative;
+}
+
+.progress-bar span{
+    position:absolute;
+    top:-23px;
+    width:100%;
+    text-align:center;
+    font-size:11px;
+}
+
+/* =========================
+   MENSAJES
+========================= */
+
+.empty-message{
+    background:white;
+    border:1px solid #e8e5ef;
+    padding:50px;
+    text-align:center;
+    border-radius:18px;
+    color:#918c9f;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid,
+    .analysis{
+        grid-template-columns:1fr;
+    }
+
+    .dancers{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .result-cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        width:70px;
+        padding:15px 8px;
+    }
+
+    .logo h2,
+    .logo p,
+    .menu-title,
+    .menu button span:not(.icon),
+    .bottom-menu{
+        display:none;
+    }
+
+    .logo{
+        justify-content:center;
+        padding-bottom:20px;
+    }
+
+    .menu button{
+        justify-content:center;
+    }
+
+    .main{
+        margin-left:70px;
+        width:calc(100% - 70px);
+    }
+
+    .page{
+        padding:18px;
+    }
+
+    .hero{
+        padding:25px;
+    }
+
+    .hero-visual{
+        display:none;
+    }
+
+    .stats,
+    .dancers,
+    .result-cards,
+    .form-grid,
+    .progress-layout{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .camera{
+        height:320px;
+    }
+
+    .profile-text{
+        display:none;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =========================
+     MENU
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-box">
+            AG
+        </div>
+
+        <div>
+            <h2>AG Dance</h2>
+            <p>INTELLIGENT ANALYSIS</p>
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        PRINCIPAL
+    </div>
+
+    <div class="menu">
+
+        <button class="active" onclick="showPage('inicio',this)">
+            <span class="icon">⌂</span>
+            <span>Inicio</span>
+        </button>
+
+        <button onclick="showPage('bailarines',this)">
+            <span class="icon">♙</span>
+            <span>Bailarines</span>
+        </button>
+
+        <button onclick="showPage('evaluacion',this)">
+            <span class="icon">＋</span>
+            <span>Nueva evaluación</span>
+        </button>
+
+        <button onclick="showPage('analisis',this)">
+            <span class="icon">◉</span>
+            <span>Análisis</span>
+        </button>
+
+        <button onclick="showPage('resultados',this)">
+            <span class="icon">✓</span>
+            <span>Resultados</span>
+        </button>
+
+    </div>
+
+
+    <div class="menu-title">
+        SEGUIMIENTO
+    </div>
+
+    <div class="menu">
+
+        <button onclick="showPage('historial',this)">
+            <span class="icon">☷</span>
+            <span>Historial</span>
+        </button>
+
+        <button onclick="showPage('progreso',this)">
+            <span class="icon">↗</span>
+            <span>Progreso</span>
+        </button>
+
+        <button onclick="showPage('reportes',this)">
+            <span class="icon">▤</span>
+            <span>Reportes</span>
+        </button>
+
+    </div>
+
+
+    <div class="bottom-menu">
+
+        <div class="menu">
+
+            <button onclick="showPage('configuracion',this)">
+                <span class="icon">⚙</span>
+                <span>Configuración</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     CONTENIDO
+========================= -->
+
+<main class="main">
+
+
+<header class="header">
+
+    <div class="header-left">
+
+        <h1 id="pageTitle">
+            Dashboard
+        </h1>
+
+        <p id="pageDescription">
+            Resumen general del rendimiento
+        </p>
+
+    </div>
+
+
+    <div class="profile">
+
+        <div class="notification">
+            ♢
+        </div>
+
+        <div class="profile-img">
+            V
+        </div>
+
+        <div class="profile-text">
+
+            <strong>Administrador</strong>
+
+            <span>
+                AG Academia
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     INICIO
+========================= -->
+
+<section id="inicio" class="page active">
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <span class="hero-tag">
+                PLATAFORMA INTELIGENTE
+            </span>
+
+            <h2>
+                Análisis inteligente<br>
+                del rendimiento
+            </h2>
+
+            <p>
+                Evalúe los movimientos de los bailarines
+                mediante visión artificial y obtenga
+                información sobre postura, coordinación,
+                equilibrio y precisión.
+            </p>
+
+            <button class="btn btn-primary"
+                    onclick="showPage('evaluacion')">
+
+                + Iniciar evaluación
+
+            </button>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="circle one"></div>
+            <div class="circle two"></div>
+
+            <div class="dancer">
+    <img src="bailarina.png" alt="Bailarina">
+</div>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-top">
+
+                <div>
+                    <span>Bailarines registrados</span>
+                    <strong>24</strong>
+                </div>
+
+                <div class="stat-icon icon-purple">
+                    ♙
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-top">
+
+                <div>
+                    <span>Evaluaciones realizadas</span>
+                    <strong>58</strong>
+                </div>
+
+                <div class="stat-icon icon-blue">
+                    ✓
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-top">
+
+                <div>
+                    <span>Promedio general</span>
+                    <strong>86%</strong>
+                </div>
+
+                <div class="stat-icon icon-green">
+                    ↗
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-top">
+
+                <div>
+                    <span>Mejor resultado</span>
+                    <strong>91%</strong>
+                </div>
+
+                <div class="stat-icon icon-orange">
+                    ★
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+
+        <div class="panel">
+
+            <div class="panel-title">
+
+                <div>
+
+                    <h3>
+                        Evolución del rendimiento
+                    </h3>
+
+                    <p>
+                        Promedio de las últimas evaluaciones
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart">
+
+                <div class="bar" style="height:55%">
+                    <span>78%</span>
+                </div>
+
+                <div class="bar" style="height:63%">
+                    <span>81%</span>
+                </div>
+
+                <div class="bar" style="height:70%">
+                    <span>83%</span>
+                </div>
+
+                <div class="bar" style="height:77%">
+                    <span>86%</span>
+                </div>
+
+                <div class="bar" style="height:85%">
+                    <span>89%</span>
+                </div>
+
+                <div class="bar" style="height:91%">
+                    <span>91%</span>
+                </div>
+
+            </div>
+
+
+            <div class="chart-labels">
+
+                <span>Mar</span>
+                <span>Abr</span>
+                <span>May</span>
+                <span>Jun</span>
+                <span>Jul</span>
+                <span>Ago</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-title">
+
+                <div>
+
+                    <h3>
+                        Últimas evaluaciones
+                    </h3>
+
+                    <p>
+                        Actividad reciente
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="evaluation">
+
+                <div class="avatar">
+                    A
+                </div>
+
+                <div class="evaluation-info">
+
+                    <strong>
+                        Ana López
+                    </strong>
+
+                    <span>
+                        Ballet · Giro
+                    </span>
+
+                </div>
+
+                <div class="score">
+                    91%
+                </div>
+
+            </div>
+
+
+            <div class="evaluation">
+
+                <div class="avatar">
+                    C
+                </div>
+
+                <div class="evaluation-info">
+
+                    <strong>
+                        Carlos Pérez
+                    </strong>
+
+                    <span>
+                        Hip Hop · Salto
+                    </span>
+
+                </div>
+
+                <div class="score">
+                    86%
+                </div>
+
+            </div>
+
+
+            <div class="evaluation">
+
+                <div class="avatar">
+                    M
+                </div>
+
+                <div class="evaluation-info">
+
+                    <strong>
+                        María García
+                    </strong>
+
+                    <span>
+                        Jazz · Giro
+                    </span>
+
+                </div>
+
+                <div class="score">
+                    89%
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     BAILARINES
+========================= -->
+
+<section id="bailarines" class="page">
+
+    <div class="section-head">
+
+        <div>
+
+            <h2>
+                Bailarines
+            </h2>
+
+            <p>
+                Administre los participantes de la academia.
+            </p>
+
+        </div>
+
+        <button class="btn btn-primary"
+                onclick="showPage('registro')">
+
+            + Registrar bailarín
+
+        </button>
+
+    </div>
+
+
+    <input
+        class="search"
+        placeholder="Buscar bailarín..."
+        onkeyup="searchDancers(this.value)"
+    >
+
+
+    <div class="dancers" id="dancerList">
+
+
+        <div class="dancer-card">
+
+            <div class="dancer-photo">
+                A
+            </div>
+
+            <h3>
+                Ana López
+            </h3>
+
+            <div class="style">
+                Ballet
+            </div>
+
+            <p>
+                Nivel avanzado
+            </p>
+
+            <div class="dancer-score">
+                91%
+            </div>
+
+            <div class="card-actions">
+
+                <button class="small-btn"
+                        onclick="showPage('progreso')">
+
+                    Ver perfil
+
+                </button>
+
+                <button class="small-btn primary"
+                        onclick="showPage('evaluacion')">
+
+                    Evaluar
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="dancer-card">
+
+            <div class="dancer-photo">
+                C
+            </div>
+
+            <h3>
+                Carlos Pérez
+            </h3>
+
+            <div class="style">
+                Hip Hop
+            </div>
+
+            <p>
+                Nivel intermedio
+            </p>
+
+            <div class="dancer-score">
+                86%
+            </div>
+
+            <div class="card-actions">
+
+                <button class="small-btn"
+                        onclick="showPage('progreso')">
+
+                    Ver perfil
+
+                </button>
+
+                <button class="small-btn primary"
+                        onclick="showPage('evaluacion')">
+
+                    Evaluar
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="dancer-card">
+
+            <div class="dancer-photo">
+                M
+            </div>
+
+            <h3>
+                María García
+            </h3>
+
+            <div class="style">
+                Jazz
+            </div>
+
+            <p>
+                Nivel avanzado
+            </p>
+
+            <div class="dancer-score">
+                89%
+            </div>
+
+            <div class="card-actions">
+
+                <button class="small-btn"
+                        onclick="showPage('progreso')">
+
+                    Ver perfil
+
+                </button>
+
+                <button class="small-btn primary"
+                        onclick="showPage('evaluacion')">
+
+                    Evaluar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     REGISTRO
+========================= -->
+
+<section id="registro" class="page">
+
+    <div class="form">
+
+        <h2>
+            Registrar bailarín
+        </h2>
+
+        <p>
+            Registre los datos necesarios para realizar las evaluaciones.
+        </p>
+
+
+        <div class="form-grid">
+
+            <div class="field full">
+
+                <label>
+                    Nombre completo
+                </label>
+
+                <input
+                    type="text"
+                    id="nombreBailarin"
+                    placeholder="Ej. Ana López"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Edad
+                </label>
+
+                <input
+                    type="number"
+                    placeholder="Ej. 20"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Nivel
+                </label>
+
+                <select>
+
+                    <option>
+                        Principiante
+                    </option>
+
+                    <option>
+                        Intermedio
+                    </option>
+
+                    <option>
+                        Avanzado
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Estilo de danza
+                </label>
+
+                <select>
+
+                    <option>
+                        Ballet
+                    </option>
+
+                    <option>
+                        Jazz
+                    </option>
+
+                    <option>
+                        Hip Hop
+                    </option>
+
+                    <option>
+                        Contemporáneo
+                    </option>
+
+                    <option>
+                        Salsa
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Instructor
+                </label>
+
+                <input
+                    type="text"
+                    placeholder="Nombre del instructor"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button class="btn btn-primary"
+                onclick="registerDancer()">
+
+            Guardar bailarín
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     EVALUACION
+========================= -->
+
+<section id="evaluacion" class="page">
+
+    <div class="form">
+
+        <h2>
+            Nueva evaluación
+        </h2>
+
+        <p>
+            Seleccione los datos necesarios antes de iniciar el análisis.
+        </p>
+
+
+        <div class="form-grid">
+
+
+            <div class="field full">
+
+                <label>
+                    Bailarín
+                </label>
+
+                <select>
+
+                    <option>
+                        Ana López
+                    </option>
+
+                    <option>
+                        Carlos Pérez
+                    </option>
+
+                    <option>
+                        María García
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Movimiento
+                </label>
+
+                <select>
+
+                    <option>
+                        Giro
+                    </option>
+
+                    <option>
+                        Salto
+                    </option>
+
+                    <option>
+                        Equilibrio
+                    </option>
+
+                    <option>
+                        Paso
+                    </option>
+
+                    <option>
+                        Coreografía
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Cámara
+                </label>
+
+                <select>
+
+                    <option>
+                        Cámara integrada
+                    </option>
+
+                    <option>
+                        Webcam externa
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <button class="btn btn-primary"
+                onclick="showPage('analisis')">
+
+            Preparar análisis
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ANALISIS
+========================= -->
+
+<section id="analisis" class="page">
+
+    <div class="section-head">
+
+        <div>
+
+            <h2>
+                Análisis de movimiento
+            </h2>
+
+            <p>
+                Evaluación mediante visión artificial.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="analysis">
+
+
+        <div class="camera-panel">
+
+            <div class="camera-head">
+
+                <div>
+
+                    <h3>
+                        Cámara
+                    </h3>
+
+                    <p>
+                        Ana López · Giro
+                    </p>
+
+                </div>
+
+                <div class="status">
+                    ● LISTO
+                </div>
+
+            </div>
+
+
+            <div class="camera">
+
+                <div class="camera-content">
+
+                    <div class="camera-icon">
+                        ◉
+                    </div>
+
+                    <h3>
+                        Área de captura
+                    </h3>
+
+                    <p>
+                        La cámara del bailarín aparecerá aquí.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="camera-controls">
+
+                <button class="btn btn-primary"
+                        onclick="startAnalysis()">
+
+                    ▶ Iniciar análisis
+
+                </button>
+
+                <button class="btn btn-light"
+                        onclick="showPage('resultados')">
+
+                    Finalizar
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="metrics-panel">
+
+            <h2>
+                Métricas
+            </h2>
+
+
+            <div class="metric">
+
+                <div class="metric-title">
+
+                    <span>
+                        Postura
+                    </span>
+
+                    <strong>
+                        85%
+                    </strong>
+
+                </div>
+
+                <div class="progress">
+                    <div style="width:85%"></div>
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-title">
+
+                    <span>
+                        Coordinación
+                    </span>
+
+                    <strong>
+                        78%
+                    </strong>
+
+                </div>
+
+                <div class="progress">
+                    <div style="width:78%"></div>
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-title">
+
+                    <span>
+                        Equilibrio
+                    </span>
+
+                    <strong>
+                        90%
+                    </strong>
+
+                </div>
+
+                <div class="progress">
+                    <div style="width:90%"></div>
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-title">
+
+                    <span>
+                        Precisión
+                    </span>
+
+                    <strong>
+                        82%
+                    </strong>
+
+                </div>
+
+                <div class="progress">
+                    <div style="width:82%"></div>
+                </div>
+
+            </div>
+
+
+            <div class="general">
+
+                <span>
+                    Resultado general
+                </span>
+
+                <strong>
+                    84%
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     RESULTADOS
+========================= -->
+
+<section id="resultados" class="page">
+
+
+    <div class="result-header">
+
+        <span>
+            RESULTADO DE EVALUACIÓN
+        </span>
+
+        <h2>
+            Ana López
+        </h2>
+
+        <p>
+            Movimiento: Giro
+        </p>
+
+        <div class="result-number">
+            84%
+        </div>
+
+        <p>
+            Rendimiento general
+        </p>
+
+    </div>
+
+
+    <div class="result-cards">
+
+        <div class="result-card">
+
+            <span>
+                Postura
+            </span>
+
+            <strong>
+                85%
+            </strong>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <span>
+                Coordinación
+            </span>
+
+            <strong>
+                78%
+            </strong>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <span>
+                Equilibrio
+            </span>
+
+            <strong>
+                90%
+            </strong>
+
+        </div>
+
+
+        <div class="result-card">
+
+            <span>
+                Precisión
+            </span>
+
+            <strong>
+                82%
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+
+        <div class="panel">
+
+            <div class="panel-title">
+
+                <h3>
+                    Aspectos positivos
+                </h3>
+
+            </div>
+
+            <br>
+
+            <p>
+                ✓ Buen equilibrio durante el movimiento.
+            </p>
+
+            <br>
+
+            <p>
+                ✓ Buena alineación corporal.
+            </p>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-title">
+
+                <h3>
+                    Aspectos por mejorar
+                </h3>
+
+            </div>
+
+            <br>
+
+            <p>
+                • Mejorar coordinación durante el giro.
+            </p>
+
+            <br>
+
+            <p>
+                • Mantener la postura durante todo el movimiento.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HISTORIAL
+========================= -->
+
+<section id="historial" class="page">
+
+    <div class="section-head">
+
+        <div>
+
+            <h2>
+                Historial
+            </h2>
+
+            <p>
+                Evaluaciones realizadas.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Fecha
+                    </th>
+
+                    <th>
+                        Bailarín
+                    </th>
+
+                    <th>
+                        Movimiento
+                    </th>
+
+                    <th>
+                        Resultado
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        10/08/2026
+                    </td>
+
+                    <td>
+                        Ana López
+                    </td>
+
+                    <td>
+                        Giro
+                    </td>
+
+                    <td>
+                        <strong>
+                            84%
+                        </strong>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        17/08/2026
+                    </td>
+
+                    <td>
+                        Ana López
+                    </td>
+
+                    <td>
+                        Salto
+                    </td>
+
+                    <td>
+                        <strong>
+                            88%
+                        </strong>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        24/08/2026
+                    </td>
+
+                    <td>
+                        Ana López
+                    </td>
+
+                    <td>
+                        Giro
+                    </td>
+
+                    <td>
+                        <strong>
+                            91%
+                        </strong>
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        28/08/2026
+                    </td>
+
+                    <td>
+                        Carlos Pérez
+                    </td>
+
+                    <td>
+                        Equilibrio
+                    </td>
+
+                    <td>
+                        <strong>
+                            86%
+                        </strong>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PROGRESO
+========================= -->
+
+<section id="progreso" class="page">
+
+    <div class="section-head">
+
+        <div>
+
+            <h2>
+                Progreso
+            </h2>
+
+            <p>
+                Evolución del rendimiento del bailarín.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="progress-layout">
+
+
+        <div class="profile-card">
+
+            <div class="profile-big">
+                A
+            </div>
+
+            <h2>
+                Ana López
+            </h2>
+
+            <p>
+                Ballet · Nivel avanzado
+            </p>
+
+            <div class="average">
+                91%
+            </div>
+
+            <p>
+                Promedio actual
+            </p>
+
+        </div>
+
+
+        <div class="progress-chart">
+
+            <h3>
+                Evolución de evaluaciones
+            </h3>
+
+
+            <div class="progress-bars">
+
+                <div class="progress-bar"
+                     style="height:65%">
+
+                    <span>
+                        65%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar"
+                     style="height:72%">
+
+                    <span>
+                        72%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar"
+                     style="height:78%">
+
+                    <span>
+                        78%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar"
+                     style="height:84%">
+
+                    <span>
+                        84%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-bar"
+                     style="height:91%">
+
+                    <span>
+                        91%
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     REPORTES
+========================= -->
+
+<section id="reportes" class="page">
+
+    <div class="form">
+
+        <h2>
+            Reportes
+        </h2>
+
+        <p>
+            Genere un reporte de las evaluaciones realizadas.
+        </p>
+
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>
+                    Bailarín
+                </label>
+
+                <select>
+
+                    <option>
+                        Ana López
+                    </option>
+
+                    <option>
+                        Carlos Pérez
+                    </option>
+
+                    <option>
+                        María García
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Periodo
+                </label>
+
+                <select>
+
+                    <option>
+                        Último mes
+                    </option>
+
+                    <option>
+                        Últimos 3 meses
+                    </option>
+
+                    <option>
+                        Últimos 6 meses
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <button class="btn btn-primary"
+                onclick="generateReport()">
+
+            Generar reporte
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CONFIGURACION
+========================= -->
+
+<section id="configuracion" class="page">
+
+    <div class="form">
+
+        <h2>
+            Configuración
+        </h2>
+
+        <p>
+            Configure las opciones principales de la plataforma.
+        </p>
+
+
+        <div class="form-grid">
+
+
+            <div class="field full">
+
+                <label>
+                    Nombre del administrador
+                </label>
+
+                <input
+                    type="text"
+                    value="Administrador"
+                >
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    Correo electrónico
+                </label>
+
+                <input
+                    type="email"
+                    value="admin@agdance.com"
+                >
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>
+                    Cámara principal
+                </label>
+
+                <select>
+
+                    <option>
+                        Cámara integrada
+                    </option>
+
+                    <option>
+                        Webcam externa
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <button class="btn btn-primary"
+                onclick="alert('Configuración guardada correctamente.')">
+
+            Guardar cambios
+
+        </button>
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =========================
+   CAMBIO DE PAGINAS
+========================= */
+
+function showPage(pageId,button){
+
+    const pages=document.querySelectorAll(".page");
+
+    pages.forEach(function(page){
+
+        page.classList.remove("active");
+
+    });
+
+
+    const selected=document.getElementById(pageId);
+
+    if(selected){
+
+        selected.classList.add("active");
+
+    }
+
+
+    const buttons=document.querySelectorAll(".menu button");
+
+    buttons.forEach(function(btn){
+
+        btn.classList.remove("active");
+
+    });
+
+
+    if(button){
+
+        button.classList.add("active");
+
+    }
+
+
+    const titles={
+
+        inicio:[
+            "Dashboard",
+            "Resumen general del rendimiento"
+        ],
+
+        bailarines:[
+            "Bailarines",
+            "Administración de participantes"
+        ],
+
+        registro:[
+            "Registrar bailarín",
+            "Registro de un nuevo participante"
+        ],
+
+        evaluacion:[
+            "Nueva evaluación",
+            "Configuración del análisis"
+        ],
+
+        analisis:[
+            "Análisis",
+            "Evaluación mediante visión artificial"
+        ],
+
+        resultados:[
+            "Resultados",
+            "Resultado de la evaluación"
+        ],
+
+        historial:[
+            "Historial",
+            "Evaluaciones realizadas"
+        ],
+
+        progreso:[
+            "Progreso",
+            "Evolución del rendimiento"
+        ],
+
+        reportes:[
+            "Reportes",
+            "Generación de reportes"
+        ],
+
+        configuracion:[
+            "Configuración",
+            "Configuración de la plataforma"
+        ]
+
+    };
+
+
+    if(titles[pageId]){
+
+        document.getElementById("pageTitle").textContent=
+            titles[pageId][0];
+
+        document.getElementById("pageDescription").textContent=
+            titles[pageId][1];
+
+    }
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================
+   BUSCADOR
+========================= */
+
+function searchDancers(text){
+
+    text=text.toLowerCase();
+
+    const cards=
+        document.querySelectorAll(".dancer-card");
+
+
+    cards.forEach(function(card){
+
+        const content=
+            card.textContent.toLowerCase();
+
+
+        if(content.includes(text)){
+
+            card.style.display="block";
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   REGISTRAR
+========================= */
+
+function registerDancer(){
+
+    const name=
+        document.getElementById("nombreBailarin").value;
+
+
+    if(name.trim()===""){
+
+        alert(
+            "Ingrese el nombre del bailarín."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "El bailarín "+name+
+        " fue registrado correctamente."
+    );
+
+
+    showPage("bailarines");
+
+}
+
+
+/* =========================
+   ANALISIS
+========================= */
+
+function startAnalysis(){
+
+    alert(
+        "El análisis ha comenzado. La cámara y el modelo de visión artificial se conectarán en la siguiente etapa del proyecto."
+    );
+
+}
+
+
+/* =========================
+   REPORTES
+========================= */
+
+function generateReport(){
+
+    alert(
+        "El reporte se generó correctamente."
+    );
+
+}
+
+</script>
+
+</body>
+</html>
